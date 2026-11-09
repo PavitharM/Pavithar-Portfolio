@@ -1,0 +1,14 @@
+@import "tailwindcss";
+@font-face{font-family:Manrope;src:url('@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2') format('woff2');font-weight:200 800;font-display:swap}
+:root{font-family:Manrope,Arial,sans-serif;color-scheme:light;--bg:#eaf3f9;--paper:#f1f7fb;--ink:#112f49;--muted:#425b6b;--accent:#27648b;--display:#9cb7c9;--line:rgba(55,93,120,.19);--glass:rgba(243,249,253,.7);--bright:#fff;--control:#173e58;--on-control:#f3faff;--hero-base:#deebf4;--sky:#d0e3f0;--light:#f6faff;--grid:rgba(45,89,115,.075);--green:#36816e;--ease:cubic-bezier(.2,.72,.18,1);background:var(--bg);color:var(--ink);scroll-behavior:smooth}
+:root[data-theme=dark]{color-scheme:dark;--bg:#101e2b;--paper:#132333;--ink:#eaf5fe;--muted:#aec2d0;--accent:#8dc9f0;--display:#4c687e;--line:rgba(164,199,226,.2);--glass:rgba(20,39,55,.76);--bright:#adcfe4;--control:#bdddf2;--on-control:#0c2435;--hero-base:#101e2b;--sky:#263e52;--light:#162838;--grid:rgba(177,207,229,.065);--green:#80d4b3}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a,button{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+button{cursor:pointer;font:inherit}
+button:disabled{cursor:default}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+::selection{background:#9dcce7;color:#102c42}
+h1,h2,h3,p{margin:0}
+.micro,.eyebrow,.hero-foot,.brand-caption,.frame-count{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;text-transform:uppercase;font-size:10px;font-weight:550;letter-spacing:.12em}
+.skip{position:fixed;left:12px;top:-100px;z-index:100;background:var(--paper);padding:12px}.skip:focus{top:8px}

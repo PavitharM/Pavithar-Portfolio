@@ -36,6 +36,20 @@ function Project({project:p}) {
     </div>
   </Reveal>;
 }
+function Contact() {
+  const [copied,setCopied]=useState(false);
+  const [copyError,setCopyError]=useState(false);
+  async function copy() {
+    try {await navigator.clipboard.writeText(email);setCopied(true);setCopyError(false);setTimeout(()=>setCopied(false),2000);}
+    catch {setCopyError(true);}
+  }
+  return <section id="contact" className="section contact"><div className="inner">
+    <Label>Contact</Label><h2>LET’S BUILD SOMETHING<br/><em>REMARKABLE.</em></h2>
+    <div className="email-row"><a href={'mailto:'+email}><Mail size={20}/>{email}</a><button onClick={copy} aria-label={copied?'Email copied':'Copy email address'} title="Copy email address">{copied?<Check size={16}/>:<Copy size={16}/>}</button><span aria-live="polite" className="copy-status">{copied?'Copied':copyError?'Select the address to copy it.':''}</span></div>
+    <div className="socials"><a href={github} target="_blank" rel="noreferrer">GitHub <ArrowUpRight/></a><a href="https://www.linkedin.com/in/pavithar81" target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight/></a></div>
+    <footer><span>© {new Date().getFullYear()} Pavithar M</span><a href="#home">Back to top <ArrowUp size={15}/></a></footer>
+  </div></section>;
+}
 export default function Sections() {
   return <>
     <section id="about" className="section about"><div className="inner about-grid">
@@ -46,5 +60,6 @@ export default function Sections() {
       <div className="skill-list">{skills.map(([Icon,title,tools])=><Reveal className="skill" key={title}><Icon size={27} strokeWidth={1.4}/><h3>{title}</h3><p>{tools}</p></Reveal>)}</div></div></section>
     <section id="projects" className="section projects"><div className="inner"><Label>Featured projects</Label><div className="section-top"><h2>Selected <em>work.</em></h2><a href={github+'?tab=repositories'} target="_blank" rel="noreferrer">All repositories <ArrowUpRight size={16}/></a></div><div className="work-grid">{work.map(p=><Project key={p.name} project={p}/>)}</div></div></section>
     <section id="experience" className="section journey"><div className="inner journey-grid"><div><Label>Experience</Label><h2>My <em>journey.</em></h2></div><div className="timeline">{journey.map(([date,title,org,desc])=><Reveal className="milestone" key={title}><span className="micro">{date}</span><h3>{title}</h3><strong>{org}</strong><p>{desc}</p></Reveal>)}</div></div></section>
+    <Contact/>
   </>;
 }

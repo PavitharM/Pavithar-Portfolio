@@ -12,3 +12,16 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-off
 h1,h2,h3,p{margin:0}
 .micro,.eyebrow,.hero-foot,.brand-caption,.frame-count{font-family:'SFMono-Regular',Consolas,'Liberation Mono',monospace;text-transform:uppercase;font-size:10px;font-weight:550;letter-spacing:.12em}
 .skip{position:fixed;left:12px;top:-100px;z-index:100;background:var(--paper);padding:12px}.skip:focus{top:8px}
+.header{position:fixed;inset:0 0 auto;z-index:30;display:flex;align-items:center;justify-content:space-between;height:86px;padding:0 4.7vw;border-bottom:1px solid transparent;transition:background .35s,border .35s,height .35s}
+.header.scrolled{background:var(--glass);backdrop-filter:blur(20px);border-color:var(--line);height:68px}
+.brand-group,.header-actions,.header-contact,.available,.theme-switch{display:flex;align-items:center}
+.brand{font-size:34px;font-weight:800;letter-spacing:-.1em;line-height:1}
+.brand span,.display-name span{color:var(--accent)}
+.brand-caption{margin-left:19px;padding:4px 0 3px 18px;border-left:1px solid var(--line);color:var(--muted);font-size:9px;letter-spacing:.17em}
+.header-actions{gap:21px}.available{gap:8px;font-size:11px;font-weight:600;letter-spacing:.015em}
+.available i{background:var(--green);width:6px;height:6px;border-radius:50%;box-shadow:0 0 0 3px color-mix(in srgb,var(--green) 11%,transparent)}
+.theme-switch{gap:2px;padding:3px;border-radius:22px;border:1px solid var(--line);background:color-mix(in srgb,var(--sky) 40%,transparent)}
+.theme-switch svg{box-sizing:content-box;padding:5px;border-radius:50%;color:var(--muted)}
+.theme-switch .selected{background:var(--glass);box-shadow:0 1px 5px #102e441c;color:var(--ink)}
+.header-contact{gap:10px;border:1px solid var(--line);background:var(--glass);border-radius:24px;padding:8px 16px;font-weight:650;font-size:12px}
+.header-contact:hover,.secondary:hover,.socials a:hover{border-color:var(--accent)}

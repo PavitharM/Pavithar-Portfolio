@@ -4,6 +4,13 @@ import { ArrowUpRight, ArrowUp, Atom, Braces, Smartphone, Database, Terminal, Ma
 
 const github = 'https://github.com/PavitharM';
 const email = 'pavitharmangaleswaran@gmail.com';
+const skills = [
+  [Atom,'Frontend development','React · JavaScript · Tailwind CSS'],
+  [Braces,'Backend development','Node.js · Express · Flask'],
+  [Smartphone,'Mobile development','React Native · Expo Router'],
+  [Database,'Databases','MySQL · SQLite · Prisma'],
+  [Terminal,'Development tools','Git · GitHub · Vite · VS Code'],
+];
 function Reveal({children,className=''}) {
   const reduced=useReducedMotion();
   return <motion.div className={className} initial={reduced?false:{opacity:0,y:18}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.08}} transition={{duration:.48,ease:'easeOut'}}>{children}</motion.div>;
@@ -15,5 +22,7 @@ export default function Sections() {
       <div><Label>About me</Label><h2>Engineering with<br/><em>intent.</em></h2></div>
       <Reveal><p className="lead">I’m Pavithar, a software engineering undergraduate at Sabaragamuwa University of Sri Lanka.</p><p>I build web and mobile applications around the tasks people need to finish, from finding a lawyer to splitting a bill with friends. I’m drawn to the point where a clear interface meets a well-designed database.</p><div className="about-location"><MapPin size={15}/> Sri Lanka</div></Reveal>
     </div></section>
+    <section id="skills" className="section skills"><div className="inner"><Label>Skills & technologies</Label><h2>My <em>toolkit.</em></h2>
+      <div className="skill-list">{skills.map(([Icon,title,tools])=><Reveal className="skill" key={title}><Icon size={27} strokeWidth={1.4}/><h3>{title}</h3><p>{tools}</p></Reveal>)}</div></div></section>
   </>;
 }

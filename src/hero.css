@@ -111,3 +111,70 @@
 .primary { gap: 14px; color: white; padding: 5px 6px 5px 18px; background: linear-gradient(105deg,#006acd,#008ebd); }
 .primary span { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 100%; background: #fff; color: #0577cb; }
 .secondary { padding: 8px 19px; color: #264b5b; background: #fafdff; border: 1px solid #fff9; }
+.glass-card, .feature-card {
+  position: absolute;
+  bottom: var(--card-y);
+  height: var(--card-h);
+  z-index: 3;
+}
+.glass-card {
+  color: white;
+  border-radius: var(--card-radius);
+  border: 1px solid #ffffff70;
+  background: linear-gradient(125deg, #fff2, #b7e5ff17 70%, #e4f3ff33);
+  backdrop-filter: blur(18px);
+  box-shadow: inset 0 0 14px #ffffff12, 0 6px 28px #354a6010;
+  padding: clamp(14px, 1.5vw, 28px);
+}
+.card-label { display: flex; align-items: center; gap: 7px; }
+.card-arrow { position: absolute; top: 9px; right: 9px; width: 29px; height: 29px; display: grid; place-items: center; border-radius: 100%; background: #ffffff29; }
+.portrait-control {
+  left: 43%;
+  width: 18.5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  background-color: #244b6c42;
+}
+.portrait-control:hover:enabled { background-color: #2e577b6b; }
+.motion-content { display: flex; align-items: center; gap: clamp(9px, 1.3vw, 22px); }
+.portrait-stamps { position: relative; width: clamp(37px, 4.2vw, 80px); height: clamp(40px, 4.4vw, 80px); flex: none; }
+.portrait-stamps span {
+  position: absolute; inset: 0 12% 0 0; border: 1px solid #fffc; border-radius: 11px;
+  background-color: #bfdbe7; background-size: 140%; background-position: 50% 2%; background-repeat: no-repeat;
+  box-shadow: 0 4px 12px #132e4952;
+}
+.portrait-stamps span:first-child { transform: translateX(-6%) rotate(-14deg); }
+.portrait-stamps span:nth-child(2) { transform: translateX(7%) rotate(-4deg); }
+.portrait-stamps span:last-child { transform: translateX(16%) rotate(7deg); }
+.motion-caption { display: grid; gap: 2px; }.motion-caption strong, .feature-body strong { font-size: clamp(21px, 2vw, 40px); line-height: 1.12; font-weight: 500; letter-spacing: -.055em; }
+.hero .frame-count { font: inherit; font-size: clamp(10px,.83vw,15px); letter-spacing: 0; text-transform: none; }
+.feature-card { left: 62.65%; width: 15.4%; color: #274c5d; }
+.feature-body {
+  position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+  gap: 4px; padding: clamp(13px,1.55vw,28px);
+  border-radius: 0 var(--card-radius) var(--card-radius) var(--card-radius);
+  background: linear-gradient(150deg, #fff, #eaf6fa 87%, #d9edf4);
+}
+.feature-body .card-label { margin-bottom: auto; font-size: clamp(10px,.8vw,14px); }
+.feature-body .card-arrow { background: #fff9; box-shadow: 0 3px 10px #254a6220; }
+.feature-crest {
+  position: absolute; left: 0; bottom: calc(100% - 2px); width: 53%; height: clamp(42px,6.8vh,80px);
+  border-radius: var(--card-radius) var(--card-radius) 0 0; background: #fff;
+  display: grid; place-items: center;
+}
+.feature-crest:after {
+  content: ''; position: absolute; left: 100%; bottom: 0; width: 23px; height: 23px;
+  background: radial-gradient(circle at 100% 0,transparent 22px,#fff 23px);
+}
+.glass-emblem {
+  display: grid; place-items: center; width: clamp(32px,3.3vw,64px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(ellipse at 32% 22%, #f4ffff 1%,#84d8fc 17%,#2284da 37%,#095da9 52%,#54b6ea 75%,#d3f9ff);
+  color: #ecfbff; box-shadow: inset 2px 2px 3px #ffffffb0, inset -2px -3px 6px #176fb73d, 0 4px 8px #226a9c38;
+}
+.feature-card:hover .card-arrow { transform: translate(1px,-1px); }
+.time-card { left: 79.2%; right: 2.7%; display: flex; flex-direction: column; justify-content: space-between; background-color: #375b6f32; }
+.time-card time { font-size: clamp(36px,4.3vw,86px); line-height: 1; letter-spacing: -.075em; font-variant-numeric: tabular-nums; font-weight: 400; }
+.scroll-down { position: absolute; bottom: 1.75%; left: 7.2%; display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 600; color: #17394e; }
+

@@ -8,6 +8,22 @@ import Sections from './Sections';
 import './style.css';
 import './hero.css';
 
+const colomboClock = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Asia/Colombo', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+});
+
+function LocalTime() {
+  const [clock, setClock] = useState(() => colomboClock.format(new Date()));
+  useEffect(() => {
+    const timer = setInterval(() => setClock(colomboClock.format(new Date())), 15000);
+    return () => clearInterval(timer);
+  }, []);
+  return <div className="time-card glass-card">
+    <span className="card-label"><Globe2 size={15}/> Local time</span>
+    <time>{clock}</time><span className="card-caption">Sri Lanka · GMT+5:30</span>
+  </div>;
+}
+
 function Hero() {
   const hero = useRef(null);
   const reduced = useReducedMotion();
@@ -40,6 +56,7 @@ function Hero() {
         <strong>LawLink</strong><span className="card-caption">Legal consultations<br/>for Sri Lanka</span>
       </span>
     </a>
+    <LocalTime/>
     <a className="scroll-down" href="#about"><ArrowDown size={14}/> Scroll to explore</a>
   </section>;
 }

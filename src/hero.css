@@ -30,3 +30,42 @@
     radial-gradient(ellipse at 50% 101%, var(--glow) 0%, color-mix(in srgb, var(--glow) 80%, transparent) 24%, transparent 64%),
     linear-gradient(180deg, var(--air) 0% 30%, var(--distance) 55%, var(--horizon) 100%);
 }
+.profession {
+  position: absolute;
+  top: 16.2%;
+  left: .4%;
+  width: 99.2%;
+  height: 28%;
+  font: 238px Didot, 'Bodoni MT', 'Times New Roman', serif;
+  letter-spacing: -.035em;
+  pointer-events: none;
+}
+.portrait-layer {
+  position: absolute;
+  top: var(--portrait-y);
+  left: var(--portrait-x);
+  width: var(--portrait-w);
+  height: var(--portrait-h);
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent, black 6% 94%, transparent);
+}
+.portrait-layer > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+.portrait-light {
+  mask: var(--frame-mask) var(--portrait-x) var(--portrait-y) / var(--portrait-w) var(--portrait-h) no-repeat;
+  background:
+    radial-gradient(ellipse at 68% 100%, #f0c1aaab, transparent 27%),
+    linear-gradient(161deg, transparent 46%, #0762b92b 60%, #0878e4b8 82%, #5b78aeca);
+}
+.portrait-soft {
+  mask-image: linear-gradient(180deg, transparent 48%, #000 73%);
+}
+.portrait-soft::before {
+  content: '';
+  position: absolute;
+  top: var(--portrait-y);
+  left: var(--portrait-x);
+  width: var(--portrait-w);
+  height: var(--portrait-h);
+  background: var(--frame-mask) center / 100% 100% no-repeat;
+  filter: blur(16px);
+}

@@ -69,7 +69,14 @@ export default function Portrait({ hero, reduced }) {
     player.current = play;
     show(0);
     if (!reduced && window.scrollY < 5) timer = window.setTimeout(play, 560);
-    return () => { live = false; ++ticket; clearTimeout(timer); player.current = null; cache.clear(); };
+    const trigger = reduced ? null : ScrollTrigger.create({
+      trigger: hero.current, start: 'top top', end: 'bottom 10%',
+      onUpdate: self => {
+        stop();
+        show(Math.round((1 - self.progress) * (total - 1)));
+      },
+    });
+    return () => { live = false; ++ticket; clearTimeout(timer); trigger?.kill(); player.current = null; cache.clear(); };
   }, [hero, reduced]);
 
   return <>

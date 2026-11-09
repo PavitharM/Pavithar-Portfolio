@@ -4,6 +4,7 @@ import { MotionConfig, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, ChevronRight, ArrowDown, Globe2, Scale } from 'lucide-react';
 import Navigation, { MagneticLink } from './Navigation';
 import Portrait from './Portrait';
+import PortfolioDock from './PortfolioDock';
 import Sections from './Sections';
 import './style.css';
 import './hero.css';
@@ -32,8 +33,8 @@ function Hero() {
     <svg className="profession" viewBox="0 0 1400 195" preserveAspectRatio="none" role="img" aria-label="Software Engineer">
       <defs><linearGradient id="headline-mist" x1="0" x2="0" y1="0" y2="1">
         <stop offset="0%" stopColor="#fbfdff" stopOpacity=".85"/>
-        <stop offset="53%" stopColor="#f1faff" stopOpacity=".47"/>
-        <stop offset="100%" stopColor="#e8f6ff" stopOpacity=".03"/>
+        <stop offset="53%" stopColor="#f1faff" stopOpacity=".65"/>
+        <stop offset="100%" stopColor="#e8f6ff" stopOpacity=".12"/>
       </linearGradient></defs>
       <text x="700" y="180" textAnchor="middle" textLength="1390" lengthAdjust="spacingAndGlyphs" fill="url(#headline-mist)">SOFTWARE ENGINEER</text>
     </svg>
@@ -62,7 +63,7 @@ function Hero() {
 }
 
 function App() {
-  return <MotionConfig reducedMotion="user"><Navigation/><main id="main"><Hero/><Sections/></main></MotionConfig>;
+  return <MotionConfig reducedMotion="user"><Navigation/><PortfolioDock/><main id="main"><Hero/><Sections/></main></MotionConfig>;
 }
 
 createRoot(document.getElementById('root')).render(<App/>);

@@ -1,11 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion';
-import { House, UserRound, Layers3, FolderOpen, BriefcaseBusiness, Mail, Sun, Moon, ArrowUpRight } from 'lucide-react';
-
-const links = [
-  ['home', 'Home', House], ['about', 'About', UserRound], ['skills', 'Skills', Layers3],
-  ['projects', 'Projects', FolderOpen], ['experience', 'Experience', BriefcaseBusiness], ['contact', 'Contact', Mail],
-];
+import { Sun, Moon, ArrowUpRight } from 'lucide-react';
 
 export function MagneticLink({ children, className, ...props }) {
   const reduced = useReducedMotion();
@@ -22,7 +17,6 @@ export function MagneticLink({ children, className, ...props }) {
 }
 
 export default function Navigation() {
-  const [section,setSection] = useState('home');
   const [scrolled,setScrolled] = useState(false);
   const [theme,setTheme] = useState(document.documentElement.dataset.theme);
   useEffect(() => {
@@ -36,17 +30,10 @@ export default function Navigation() {
     document.querySelector('meta[name="theme-color"]').content=theme==='dark'?'#0b1826':'#eaf4fb';
   },[theme]);
   useEffect(() => {
-    const sections = links.map(([id]) => document.getElementById(id));
-    let raf = 0;
-    function update() {
-      raf = 0;
-      const current = sections.filter(s => s && s.getBoundingClientRect().top <= innerHeight * .46).at(-1);
-      setSection(innerHeight + scrollY >= document.documentElement.scrollHeight-3 ? 'contact' : current?.id || 'home');
-      setScrolled(scrollY > 28);
-    }
-    const schedule = () => { if (!raf) raf=requestAnimationFrame(update); };
-    update(); window.addEventListener('scroll',schedule,{passive:true}); window.addEventListener('resize',schedule);
-    return () => { cancelAnimationFrame(raf);window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule); };
+    const update = () => setScrolled(scrollY > 28);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
   },[]);
   function toggle() {
     const next = theme === 'dark' ? 'light' : 'dark';
@@ -61,10 +48,5 @@ export default function Navigation() {
         <a className="header-contact" href="#contact">Contact <ArrowUpRight size={15}/></a>
       </div>
     </header>
-    <nav className="dock" aria-label="Portfolio sections">{links.map(([id,label,Icon]) =>
-      <MagneticLink href={'#'+id} key={id} aria-label={label} aria-current={section===id?'location':undefined} className={'dock-item '+(section===id?'active':'')}>
-        {section===id && <motion.span layoutId="nav-current" className="nav-current" transition={{type:'spring',stiffness:350,damping:32}}/>}
-        <Icon size={18} strokeWidth={1.65}/><span className="tooltip">{label}</span>
-      </MagneticLink>)}</nav>
   </>;
 }

@@ -1,19 +1,26 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Play, RotateCcw } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Pause, Play, RotateCcw } from 'lucide-react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import gsap from 'gsap';
 
 gsap.registerPlugin(ScrollTrigger);
 const total = 11;
+const replayInterval = 4000;
 const frameUrl = (index, width) => `/portrait/frame-${String(index + 1).padStart(2, '0')}-${width}.webp`;
 
 export default function Portrait({ hero, reduced }) {
   const canvas = useRef(null);
   const player = useRef(null);
+  const loopPaused = useRef(false);
+  const [paused, setPaused] = useState(false);
   const [frame, setFrame] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [ready, setReady] = useState(false);
-  const replay = useCallback(() => player.current?.(), []);
+  function toggleLoop() {
+    loopPaused.current = !loopPaused.current;
+    setPaused(loopPaused.current);
+    player.current?.sync();
+  }
 
   useEffect(() => {
     const surface = canvas.current;
@@ -21,7 +28,9 @@ export default function Portrait({ hero, reduced }) {
     if (!ctx) return;
     const size = window.matchMedia('(max-width: 700px)').matches ? 500 : 900;
     const cache = new Map();
-    let live = true, ticket = 0, playback = 0, timer, drawn = -1;
+    let live = true, ticket = 0, playback = 0, drawn = -1;
+    let frameTimer, loopTimer, inView = false;
+    const canLoop = () => inView && !document.hidden && !reduced && !loopPaused.current;
     const get = index => {
       if (cache.has(index)) return cache.get(index);
       const image = new Image();
@@ -52,31 +61,68 @@ export default function Portrait({ hero, reduced }) {
         if (!reduced && index < total - 1) get(index + 1).catch(() => {});
       } catch { cache.delete(index); }
     };
-    const stop = () => { playback++; window.clearTimeout(timer); if (live) setPlaying(false); };
-    const play = () => {
+    function stop() {
+      playback++;
+      ticket++;
+      clearTimeout(frameTimer);
+      clearTimeout(loopTimer);
+      setPlaying(false);
+    }
+    function schedule(delay) {
+      clearTimeout(loopTimer);
+      if (canLoop()) loopTimer = window.setTimeout(play, delay);
+    }
+    function play() {
       stop();
+      if (document.hidden || !inView) return;
       setPlaying(true);
       const run = playback;
-      let i = 0;
-      const advance = async () => {
-        await show(i);
+      const started = performance.now();
+      let index = 0;
+      async function advance() {
+        await show(index);
         if (!live || run !== playback) return;
-        if (++i < total) timer = window.setTimeout(advance, 105);
-        else setPlaying(false);
-      };
+        if (++index < total) {
+          frameTimer = window.setTimeout(advance, 105);
+        } else {
+          setPlaying(false);
+          schedule(Math.max(0, replayInterval - (performance.now() - started)));
+        }
+      }
       advance();
-    };
-    player.current = play;
+    }
+    function sync() {
+      stop();
+      if (drawn < 0) show(0);
+      schedule(400);
+    }
+    player.current = { play, sync };
     show(0);
-    if (!reduced && window.scrollY < 5) timer = window.setTimeout(play, 560);
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
+    });
+    observer.observe(hero.current);
+    document.addEventListener('visibilitychange', sync);
     const trigger = reduced ? null : ScrollTrigger.create({
       trigger: hero.current, start: 'top top', end: 'bottom 10%',
       onUpdate: self => {
+        if (!inView || document.hidden || loopPaused.current) return;
         stop();
         show(Math.round((1 - self.progress) * (total - 1)));
+        schedule(replayInterval);
       },
     });
-    return () => { live = false; ++ticket; clearTimeout(timer); trigger?.kill(); player.current = null; cache.clear(); };
+    return () => {
+      live = false;
+      clearTimeout(frameTimer);
+      clearTimeout(loopTimer);
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', sync);
+      trigger?.kill();
+      player.current = null;
+      cache.clear();
+    };
   }, [hero, reduced]);
 
   return <>
@@ -84,10 +130,11 @@ export default function Portrait({ hero, reduced }) {
       <img className="portrait-fallback" src={frameUrl(0, 900)} srcSet={`${frameUrl(0,500)} 500w, ${frameUrl(0,900)} 900w`} sizes="(max-width: 700px) 68vw, 42vw" alt="Pavithar M wearing a black jacket and white shirt" fetchPriority="high" style={{opacity: ready ? 0 : 1}}/>
       <canvas ref={canvas} aria-hidden="true"/>
     </div>
-    <button className="portrait-control glass-card" type="button" onClick={replay}
-      disabled={!ready || playing} aria-label="Replay portrait sequence">
+    <div className="portrait-control glass-card">
+      <button className="portrait-replay" type="button" onClick={() => player.current?.play()}
+        disabled={!ready || playing} aria-label="Replay portrait sequence">
       <span className="card-label">Motion portrait</span>
-      <span className="card-arrow">{frame === 0 ? <Play size={15}/> : <RotateCcw size={15}/>}</span>
+      {reduced && <span className="card-arrow"><RotateCcw size={15}/></span>}
       <span className="motion-content">
         <span className="portrait-stamps" aria-hidden="true">
           {[0,5,10].map(index => <span key={index} style={{backgroundImage:`url(${frameUrl(index,500)})`}}/>)}
@@ -96,6 +143,12 @@ export default function Portrait({ hero, reduced }) {
           <span className="card-caption frame-count">Frame {String(frame + 1).padStart(2,'0')} / 11</span>
         </span>
       </span>
-    </button>
+      </button>
+      {!reduced && <button className="loop-switch" type="button" onClick={toggleLoop}
+        aria-label={paused ? 'Resume automatic portrait playback' : 'Pause automatic portrait playback'}
+        title={paused ? 'Resume automatic playback' : 'Pause automatic playback'}>
+        {paused ? <Play size={14}/> : <Pause size={14}/>}
+      </button>}
+    </div>
   </>;
 }

@@ -25,3 +25,8 @@ h1,h2,h3,p{margin:0}
 .theme-switch .selected{background:var(--glass);box-shadow:0 1px 5px #102e441c;color:var(--ink)}
 .header-contact{gap:10px;border:1px solid var(--line);background:var(--glass);border-radius:24px;padding:8px 16px;font-weight:650;font-size:12px}
 .header-contact:hover,.secondary:hover,.socials a:hover{border-color:var(--accent)}
+.dock{position:fixed;z-index:35;left:2.35vw;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 6px;background:var(--glass);border:1px solid color-mix(in srgb,var(--bright) 75%,var(--line));border-radius:32px;box-shadow:0 6px 22px #294a6312,0 0 0 1px var(--line);backdrop-filter:blur(18px)}
+.dock-item{position:relative;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;color:var(--muted)}.dock-item.active{color:var(--on-control)}.dock-item>svg{z-index:1}.dock-item:hover:not(.active){background:var(--line)}
+.nav-current{position:absolute;inset:0;background:var(--control);border-radius:50%}
+.tooltip{position:absolute;left:calc(100% + 14px);top:50%;background:var(--control);color:var(--on-control);font-size:11px;font-weight:650;padding:4px 10px;border-radius:6px;opacity:0;pointer-events:none;transform:translate(-3px,-50%);transition:.2s}.dock-item:is(:hover,:focus-visible) .tooltip{opacity:1;transform:translate(0,-50%)}
+.eyebrow{display:flex;align-items:center;gap:12px;color:var(--accent);font-size:10px;letter-spacing:.17em;font-weight:700}.eyebrow i{width:30px;height:1px;background:currentColor}

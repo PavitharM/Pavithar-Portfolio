@@ -1,0 +1,32 @@
+.hero {
+  --stage: max(620px, 100svh);
+  --portrait-w: min(76vw, calc(var(--stage) * 1.24));
+  --portrait-h: calc(var(--portrait-w) * 1.58333);
+  --portrait-x: calc(52.5vw - var(--portrait-w) / 2);
+  --portrait-y: max(-20px, -1.6vh);
+  --frame-mask: url('/portrait/frame-01-900.webp');
+  --air: #c5dce4;
+  --distance: #acc7d1;
+  --horizon: #6c91a5;
+  --glow: #d8f4ff;
+  --card-y: 6.6%;
+  --card-h: clamp(128px, 19.3vh, 212px);
+  --card-radius: clamp(20px, 1.9vw, 38px);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  height: var(--stage);
+  color: #fff;
+  background: var(--air);
+  border-radius: 0 0 clamp(20px, 2.1vw, 44px) clamp(20px, 2.1vw, 44px);
+}
+.atmosphere, .portrait-light, .portrait-soft {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.atmosphere {
+  background:
+    radial-gradient(ellipse at 50% 101%, var(--glow) 0%, color-mix(in srgb, var(--glow) 80%, transparent) 24%, transparent 64%),
+    linear-gradient(180deg, var(--air) 0% 30%, var(--distance) 55%, var(--horizon) 100%);
+}

@@ -15,6 +15,11 @@ const skills = [
   [Database,'Databases','MySQL · SQLite · Prisma'],
   [Terminal,'Development tools','Git · GitHub · Vite · VS Code'],
 ];
+const journey = [
+  ['Present','Software engineering undergraduate','Sabaragamuwa University of Sri Lanka','Studying software engineering with a focus on web development, databases, and problem solving.'],
+  ['July 2026','Web and mobile engineering','LawLink','Connected client, lawyer, and administrator workflows to a shared API across a React web app and an Expo mobile app.'],
+  ['April 2026','Attendance tracking','Tuto Tracker','Built a QR attendance workflow with student records, a scanning interface, and attendance reports.'],
+];
 function Reveal({children,className=''}) {
   const reduced=useReducedMotion();
   return <motion.div className={className} initial={reduced?false:{opacity:0,y:18}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.08}} transition={{duration:.48,ease:'easeOut'}}>{children}</motion.div>;
@@ -40,5 +45,6 @@ export default function Sections() {
     <section id="skills" className="section skills"><div className="inner"><Label>Skills & technologies</Label><h2>My <em>toolkit.</em></h2>
       <div className="skill-list">{skills.map(([Icon,title,tools])=><Reveal className="skill" key={title}><Icon size={27} strokeWidth={1.4}/><h3>{title}</h3><p>{tools}</p></Reveal>)}</div></div></section>
     <section id="projects" className="section projects"><div className="inner"><Label>Featured projects</Label><div className="section-top"><h2>Selected <em>work.</em></h2><a href={github+'?tab=repositories'} target="_blank" rel="noreferrer">All repositories <ArrowUpRight size={16}/></a></div><div className="work-grid">{work.map(p=><Project key={p.name} project={p}/>)}</div></div></section>
+    <section id="experience" className="section journey"><div className="inner journey-grid"><div><Label>Experience</Label><h2>My <em>journey.</em></h2></div><div className="timeline">{journey.map(([date,title,org,desc])=><Reveal className="milestone" key={title}><span className="micro">{date}</span><h3>{title}</h3><strong>{org}</strong><p>{desc}</p></Reveal>)}</div></div></section>
   </>;
 }

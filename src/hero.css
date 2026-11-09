@@ -178,3 +178,63 @@
 .time-card time { font-size: clamp(36px,4.3vw,86px); line-height: 1; letter-spacing: -.075em; font-variant-numeric: tabular-nums; font-weight: 400; }
 .scroll-down { position: absolute; bottom: 1.75%; left: 7.2%; display: flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 600; color: #17394e; }
 
+@media (prefers-reduced-motion:no-preference) {
+  @keyframes hero-appear { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes hero-rise { from { opacity: 0; translate: 0 7px; } to { opacity: 1; translate: 0 0; } }
+  .profession, .portrait-layer { animation: hero-appear .65s ease-out both; }
+  .hero-intro, .glass-card, .feature-card { animation: hero-rise .55s var(--ease) .1s both; }
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+  .hero { --card-h: 130px; --stage: max(660px,100svh); }
+  .hero-intro { left: 9%; width: 35%; bottom: 32%; }
+  .portrait-control { left: 9%; width: 27%; }.feature-card { left: 38%; width: 25%; }.time-card { left: 65%; right: 7%; }
+  .hero h1 { font-size: 6.6vw; }.scroll-down { left: 9%; }
+}
+@media (max-width: 700px) {
+  .hero {
+    --stage: max(680px,100svh);
+    --portrait-w: min(120vw, calc(var(--stage) * .72));
+    --portrait-x: calc(53vw - var(--portrait-w) / 2);
+    --portrait-y: 57px;
+    --card-h: 94px; --card-radius: 17px; --card-y: 84px;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 70% 0 0;
+    pointer-events: none;
+    background: linear-gradient(transparent, var(--horizon) 80%);
+  }
+  .profession { top: 17%; height: 15%; }
+  .portrait-soft { mask-image: linear-gradient(transparent 38%,#000 65%); }
+  .hero-intro { left: 6%; right: 6%; width: auto; bottom: calc(var(--card-y) + var(--card-h) + 39px); }
+  .hero h1 { font-size: clamp(44px,12.6vw,78px); }
+  .intro-label { font-size: 11px; margin-bottom: 4px; }
+  .hero-description { color: white; max-width: 38ch; font-size: 13px; margin-top: 8px; text-shadow: 0 1px 5px #17394dbf; }
+  .hero-actions { margin-top: 13px; }.hero-actions a { min-height: 41px; }
+  .primary { padding-left: 15px; }.primary span { width: 27px; height: 27px; }
+  .portrait-control { left: 5%; width: 30%; padding: 10px; }
+  .portrait-control .card-label,.time-card .card-label,.feature-body .card-label { font-size: 9px; }
+  .portrait-stamps { width: 26px; height: 32px; }.portrait-stamps span { border-radius: 6px; }
+  .motion-content { gap: 6px; }.motion-caption strong,.feature-body strong { font-size: 19px; }.hero .frame-count { font-size: 8px; }
+  .feature-card { left: 37%; width: 27%; }.feature-body { padding: 10px; }.feature-crest { height: 25px; }.glass-emblem { width: 26px; }.glass-emblem svg { width: 16px; }
+  .feature-crest:after { width: 12px; height: 12px; background: radial-gradient(circle at 100% 0,transparent 11px,#fff 12px); }
+  .time-card { left: 66%; right: 5%; padding: 10px; }.time-card time { font-size: clamp(29px,7.5vw,45px); }.time-card .card-label { gap: 4px; }.time-card svg { width: 12px; }
+  .card-arrow { width: 19px; height: 19px; right: 5px; top: 5px; }.card-arrow svg { width: 12px; }
+  .card-caption { font-size: 9px; }.scroll-down { display: none; }
+}
+@media(max-width:360px) {
+  .portrait-control .card-arrow { display: none; }.portrait-stamps { width: 19px; height: 27px; }
+}
+
+/* Keep the photographic cover in its sampled palette across page themes. */
+[data-theme=dark] .header:not(.scrolled) {
+  color: #17374a;
+  --muted: #39596a;
+  --ink: #17374a;
+  --accent: #27648b;
+  --glass: #f5fbffad;
+  --line: #53738a44;
+  --sky: #c2d8e3;
+  --green: #39816d;
+}

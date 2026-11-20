@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { MotionConfig, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, ChevronRight, ArrowDown, Globe2, Scale } from 'lucide-react';
+import { ChevronRight, ArrowDown, Globe2 } from 'lucide-react';
 import Navigation, { MagneticLink } from './Navigation';
 import Portrait from './Portrait';
 import PortfolioDock from './PortfolioDock';
 import Sections from './Sections';
+import PortfolioAssistant from './PortfolioAssistant';
 import './style.css';
 import './hero.css';
 
@@ -50,20 +51,16 @@ function Hero() {
         <MagneticLink className="secondary" href="#contact">Let’s Connect</MagneticLink>
       </div>
     </div>
-    <a href="#projects" className="feature-card" aria-label="Explore featured project LawLink">
-      <span className="feature-crest" aria-hidden="true"><span className="glass-emblem"><Scale size={28} strokeWidth={1.4}/></span></span>
-      <span className="feature-body"><span className="card-label">Featured project</span>
-        <span className="card-arrow"><ArrowUpRight size={17}/></span>
-        <strong>LawLink</strong><span className="card-caption">Legal consultations<br/>for Sri Lanka</span>
-      </span>
-    </a>
+    <blockquote className="hero-thought">
+      <p>“Dreams become reality through consistent effort.”</p>
+    </blockquote>
     <LocalTime/>
     <a className="scroll-down" href="#about"><ArrowDown size={14}/> Scroll to explore</a>
   </section>;
 }
 
 function App() {
-  return <MotionConfig reducedMotion="user"><Navigation/><PortfolioDock/><main id="main"><Hero/><Sections/></main></MotionConfig>;
+  return <MotionConfig reducedMotion="user"><Navigation/><PortfolioDock/><main id="main"><Hero/><Sections/></main><PortfolioAssistant/></MotionConfig>;
 }
 
 createRoot(document.getElementById('root')).render(<App/>);

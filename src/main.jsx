@@ -1,0 +1,66 @@
+import React, { useRef, useState, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
+import { MotionConfig, useReducedMotion } from 'framer-motion';
+import { ChevronRight, ArrowDown, Globe2 } from 'lucide-react';
+import Navigation, { MagneticLink } from './Navigation';
+import Portrait from './Portrait';
+import PortfolioDock from './PortfolioDock';
+import Sections from './Sections';
+import PortfolioAssistant from './PortfolioAssistant';
+import './style.css';
+import './hero.css';
+
+const colomboClock = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Asia/Colombo', hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+});
+
+function LocalTime() {
+  const [clock, setClock] = useState(() => colomboClock.format(new Date()));
+  useEffect(() => {
+    const timer = setInterval(() => setClock(colomboClock.format(new Date())), 15000);
+    return () => clearInterval(timer);
+  }, []);
+  return <div className="time-card glass-card">
+    <span className="card-label"><Globe2 size={15}/> Local time</span>
+    <time>{clock}</time><span className="card-caption">Sri Lanka · GMT+5:30</span>
+  </div>;
+}
+
+function Hero() {
+  const hero = useRef(null);
+  const reduced = useReducedMotion();
+  return <section className="hero" id="home" ref={hero} aria-labelledby="hero-name">
+    <div className="atmosphere" aria-hidden="true"/>
+    <svg className="profession" viewBox="0 0 1400 195" preserveAspectRatio="none" role="img" aria-label="Software Engineer">
+      <defs><linearGradient id="headline-mist" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stopColor="#fbfdff" stopOpacity=".85"/>
+        <stop offset="53%" stopColor="#f1faff" stopOpacity=".65"/>
+        <stop offset="100%" stopColor="#e8f6ff" stopOpacity=".12"/>
+      </linearGradient></defs>
+      <text x="700" y="180" textAnchor="middle" textLength="1390" lengthAdjust="spacingAndGlyphs" fill="url(#headline-mist)">SOFTWARE ENGINEER</text>
+    </svg>
+    <Portrait hero={hero} reduced={reduced}/>
+    <div className="portrait-soft" aria-hidden="true"/>
+    <div className="portrait-light" aria-hidden="true"/>
+    <div className="hero-intro">
+      <p className="intro-label">Hello, I’m Pavithar</p>
+      <h1 id="hero-name">PAVITHAR M</h1>
+      <p className="hero-description">Software Engineer crafting thoughtful digital experiences through code, creativity, and modern technology.</p>
+      <div className="hero-actions">
+        <MagneticLink className="primary" href="#projects">Explore My Work <span><ChevronRight size={18}/></span></MagneticLink>
+        <MagneticLink className="secondary" href="#contact">Let’s Connect</MagneticLink>
+      </div>
+    </div>
+    <blockquote className="hero-thought">
+      <p>“Dreams become reality through consistent effort.”</p>
+    </blockquote>
+    <LocalTime/>
+    <a className="scroll-down" href="#about"><ArrowDown size={14}/> Scroll to explore</a>
+  </section>;
+}
+
+function App() {
+  return <MotionConfig reducedMotion="user"><Navigation/><PortfolioDock/><main id="main"><Hero/><Sections/></main><PortfolioAssistant/></MotionConfig>;
+}
+
+createRoot(document.getElementById('root')).render(<App/>);
